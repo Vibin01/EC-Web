@@ -1,8 +1,11 @@
+"use client";
 import { FeaturesHeroSection } from "@/components/common/FeaturesHeroSection";
 import Image from "next/image";
 import React from "react";
 import { featuresPageData } from "@/data/FeaturesPageData";
 import TransformFeaturesSection from "./TransformFeatures";
+import animationData from "@/public/animation/OrgHub.json";
+import Lottie from "lottie-react";
 
 export const FeaturesPage = () => {
   return (
@@ -14,12 +17,12 @@ export const FeaturesPage = () => {
               <FeaturesHeroSection data={featuresPageData} />
             </div>
             <div className="lg:w-[45%]">
-              {/* <Image
-                alt={HeroData.image_alt}
-                src={HeroData.image}
-                width={500}
-                height={500}
-              /> */}
+              <Lottie
+                animationData={animationData}
+                loop={false}
+                autoplay={true}
+                className="" // ✅ Custom sizes
+              />
             </div>
           </section>
           <section className="relative py-[5%] px-[7%] bg-transparent">

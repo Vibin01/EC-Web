@@ -1,7 +1,9 @@
 "use client";
 import { TransformSectionData } from "@/data/FeaturesPageData";
 import Image from "next/image";
-
+import Lottie, { LottieRefCurrentProps } from "lottie-react";
+import animationData from "@/public/animation/Explorer Hover.json";
+import { useRef } from "react";
 export default function TransformFeaturesSection() {
   return (
     <section className=" mx-auto px-6">
@@ -12,26 +14,44 @@ export default function TransformFeaturesSection() {
 
       {/* Features Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
-        {TransformSectionData.map((feature) => (
-          <div
-            key={feature.title}
-            className="flex flex-col  p-6 rounded-[20px] bg-[linear-gradient(180deg,_rgba(255,_255,_255,_0)_0%,_rgba(255,_255,_255,_0)_100%)]  hover:shadow-md transition duration-300"
-          >
-            <Image
-              src={feature.image_url}
-              alt={feature.image_alt}
-              width={60}
-              height={60}
-              className="mb-4"
-            />
-            <h3 className="text-[16px] md:text-[20px] lg:text-[24px] xl:text-[28px] 2xl:text-[32px] font-semibold mb-2">
-              {feature.title}
-            </h3>
-            <p className="text-[14px] md:text-[16px] lg:text-[18px] xl:text-[20px] 2xl:text-[22px] font-medium">
-              {feature.description}
-            </p>
-          </div>
-        ))}
+        {TransformSectionData.map((feature) => {
+          const lottieRef = useRef<LottieRefCurrentProps>(null);
+
+          const handleMouseEnter = () => {
+            lottieRef.current?.setSpeed(2);
+            lottieRef.current?.setDirection(1); // forward
+            lottieRef.current?.play();
+          };
+
+          const handleMouseLeave = () => {
+            lottieRef.current?.setSpeed(2);
+            lottieRef.current?.setDirection(-1); // backward
+            lottieRef.current?.play();
+          };
+
+          return (
+            <div
+              key={feature.title}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+              className="flex flex-col  p-6 rounded-[20px] bg-[linear-gradient(180deg,_rgba(255,_255,_255,_0)_0%,_rgba(255,_255,_255,_0)_100%)]  hover:shadow-md transition duration-300"
+            >
+              <Lottie
+                lottieRef={lottieRef}
+                animationData={animationData}
+                loop={false}
+                autoplay={false}
+                className="w-[100px] h-[100px]"
+              />
+              <h3 className="text-[16px] md:text-[20px] lg:text-[24px] xl:text-[28px] 2xl:text-[32px] font-semibold mb-2">
+                {feature.title}
+              </h3>
+              <p className="text-[14px] md:text-[16px] lg:text-[18px] xl:text-[20px] 2xl:text-[22px] font-medium">
+                {feature.description}
+              </p>
+            </div>
+          );
+        })}
       </div>
     </section>
   );
